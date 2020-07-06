@@ -15,7 +15,7 @@ import java.util.HashMap;
  */
 @Slf4j
 public class ServerHandler extends ChannelInboundHandlerAdapter {
-   /* @Override
+  /*  @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         log.info("ServerHandler channelActive....");
     }
@@ -30,9 +30,10 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         log.info("ServerHandler channelRead....");
         log.info("[{}], server :  [{}]",ctx.channel().remoteAddress(),msg.toString());
-        String s = msg.toString() + "  验证客户端发送信息";
-        ctx.write("server  callback to client -> " + s);
-        ctx.flush();
+        String s = msg.toString() + "  客户端发送信息";
+        *//*ctx.write("server  callback to client -> " + s);
+        ctx.flush();*//*
+        ctx.writeAndFlush("server  callback to client -> " + s);
     }
 
     @Override
@@ -50,6 +51,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
     public void handlerAdded(ChannelHandlerContext ctx) throws Exception {
         channels.add(ctx.channel()); // 加入
         log.info( "[{}] | [{}] come into the chattingroom, online [{}]",ctx.name(),ctx.channel().id(),channels.size());
+        log.info(" channels.size() ==> [{}] ",channels.size());
     }
 
     @Override
@@ -64,7 +66,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        log.info("server 收到信息 [{}]",msg.toString());
+        log.info("{} server 收到信息 {}",ctx.name().toString(),msg.toString());
         for (Channel channel : channels) {
             channel.writeAndFlush(channel.id()+"  服务端返回的信息 ==>> "+msg.toString());
         }

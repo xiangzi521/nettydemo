@@ -40,7 +40,7 @@ public class Client {
                     break;
                 }
                 sync.channel().writeAndFlush(s);
-                log.info("发送信息-》{}",s);
+                log.info("client 发送信息 ：{}",s);
             }
             //sync.channel().writeAndFlush(content);
             sync.channel().closeFuture().sync();
